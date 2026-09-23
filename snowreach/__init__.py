@@ -30,4 +30,4 @@ __all__ = ["classify", "occurrence", "to_hourly", "almost_reaching",
            "LABELS", "DEFAULT_GATE", "DEFAULT_THRESHOLD", "loh", "zesr",
            "open_mrr", "io"]
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"

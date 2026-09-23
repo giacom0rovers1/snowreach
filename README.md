@@ -121,7 +121,7 @@ The file under `example/` is one month taken from the first of those.
 
 This is research code released alongside a paper. Questions and reports of
 things that do not work are welcome through the issue tracker, and are
-answered when the authors can. If the classification does not run on another
+answered when the author can. If the classification does not run on another
 instrument's files, that is worth reporting: the reader in `snowreach.io` is
 written for one archive format and will need others.
 
@@ -135,5 +135,5 @@ The package was assembled from the analysis code of the paper with Claude Opus 5
 (Anthropic), used through Claude Code: it extracted the two methods from a
 larger working repository, wrote the command-line scripts and the
 documentation, and checked the result against the published table. The
-methods, the decisions about what to release and the verification of the
-outcome are the authors'.
+methods are those of the paper, and the decisions about what to release and
+the verification of the outcome are the author's.

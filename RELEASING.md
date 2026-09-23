@@ -2,7 +2,7 @@
 
 ## Where the code lives
 
-The working copy of this package is a folder inside the authors' research
+The working copy of this package is a folder inside the author's research
 repository, where it sits next to the analysis it was extracted from. This
 repository is that folder pushed out on its own, so its history is the history
 of the folder and not of the wider project. Nothing is edited here directly.
@@ -53,13 +53,16 @@ Topics: `radar`, `snowfall`, `antarctica`, `virga`, `precipitation`,
 
 Zenodo archives this repository on every GitHub release, and mints a DOI for
 it. The metadata come from `.zenodo.json` at the root, which overrides what
-Zenodo would otherwise guess from the GitHub API: the authors with their
-ORCIDs, the licence, the keywords and the related identifiers. Its `doi`
-field, if one were added, would have no effect, because Zenodo assigns the
+Zenodo would otherwise guess from the GitHub API: the author and the
+contributors with their ORCIDs, the licence, the keywords and the related
+identifiers. The code has one author. The co-authors of the paper are listed
+as contributors, as supervisors or as researcher, and are credited as authors
+through the paper, which `CITATION.cff` names as the preferred citation.
+A `doi` field in `.zenodo.json`, if one were added, would have no effect, because Zenodo assigns the
 DOI itself.
 
 1. Bump `__version__` in `snowreach/__init__.py` and `version` in
-   `.zenodo.json`. They must agree.
+   `.zenodo.json` and in `CITATION.cff`. The three must agree.
 2. Update `CITATION.cff` if the author list or the paper's status changed.
 3. Push the folder out with `git subtree push`.
 4. On GitHub, draft a release with the tag `vX.Y.Z`. Zenodo ingests it and
