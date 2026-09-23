@@ -29,6 +29,25 @@ history but never wrong. To see what would go out without pushing:
 git subtree split --prefix=snowreach --rejoin
 ```
 
+## Repository metadata
+
+The GitHub *About* field, which is what shows under the title and in search
+results, and is capped at 350 characters:
+
+> Virga classification and blind-zone simulation for vertically pointing
+> radars. Separates the snow that reaches the ground from the snow that
+> sublimates below a satellite's lowest observable height, and measures what
+> that costs in occurrence and in accumulation.
+
+It opens on what the package does rather than on the question the README
+opens with, because someone searching for "virga classification" or "blind
+zone" needs to see those words first. The paper is not in it: GitHub renders
+`CITATION.cff` as a *Cite this repository* button, so it would take space
+without adding anything.
+
+Topics: `radar`, `snowfall`, `antarctica`, `virga`, `precipitation`,
+`remote-sensing`, `cloudsat`, `earthcare`, `micro-rain-radar`, `xarray`.
+
 ## Cutting a release
 
 Zenodo archives this repository on every GitHub release, and mints a DOI for
