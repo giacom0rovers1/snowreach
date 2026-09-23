@@ -1,0 +1,60 @@
+cff-version: 1.2.0
+title: "snowreach: virga classification and blind-zone emulation for vertically pointing radars"
+message: "If you use this software, please cite both the software and the paper it comes from."
+type: software
+license: BSD-3-Clause
+version: 1.0.0
+abstract: >-
+  Two methods for deciding whether the snow a vertically pointing radar
+  detects aloft reaches the ground: a classification of the profiles into
+  precipitation, virga and noise, and an emulation of the lowest observable
+  height of a spaceborne radar, which reports what the blind zone costs in
+  occurrence and in accumulated water equivalent.
+keywords:
+  - virga
+  - snowfall
+  - Antarctica
+  - Micro Rain Radar
+  - blind zone
+  - CloudSat
+  - EarthCARE
+authors:
+  - family-names: Roversi
+    given-names: Giacomo
+    orcid: "https://orcid.org/0000-0002-6560-2307"
+    affiliation: "Ca' Foscari University of Venice, and CNR-ISAC, Rome"
+  - family-names: Bracci
+    given-names: Alessandro
+    orcid: "https://orcid.org/0000-0001-7047-6213"
+    affiliation: "CNR-ISAC, Bologna"
+  - family-names: Baldini
+    given-names: Luca
+    orcid: "https://orcid.org/0000-0001-5217-1205"
+    affiliation: "CNR-ISAC, Rome"
+  - family-names: Okamoto
+    given-names: Hajime
+    orcid: "https://orcid.org/0000-0002-4540-1698"
+    affiliation: "RIAM, Kyushu University, Fukuoka"
+  - family-names: Sato
+    given-names: Kaori
+    orcid: "https://orcid.org/0000-0002-9728-2299"
+    affiliation: "RIAM, Kyushu University, Fukuoka"
+preferred-citation:
+  type: article
+  title: >-
+    Virga hidden within the blind zone of spaceborne radars: implications for
+    surface snowfall estimates in coastal East Antarctica
+  status: submitted
+  journal: "Atmospheric Chemistry and Physics"
+  year: 2026
+  authors:
+    - family-names: Roversi
+      given-names: Giacomo
+    - family-names: Bracci
+      given-names: Alessandro
+    - family-names: Baldini
+      given-names: Luca
+    - family-names: Okamoto
+      given-names: Hajime
+    - family-names: Sato
+      given-names: Kaori

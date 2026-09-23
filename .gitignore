@@ -1,0 +1,5 @@
+# The example month is copied in from the published archive at packaging
+# time: it is 3 MB of NetCDF and it is already on Zenodo.
+example/*.nc
+__pycache__/
+*.pyc
