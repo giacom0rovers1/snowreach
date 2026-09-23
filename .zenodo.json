@@ -17,11 +17,6 @@
       "orcid": "0000-0001-7047-6213"
     },
     {
-      "name": "Baldini, Luca",
-      "affiliation": "CNR-ISAC, Rome, Italy",
-      "orcid": "0000-0001-5217-1205"
-    },
-    {
       "name": "Okamoto, Hajime",
       "affiliation": "RIAM, Kyushu University, Fukuoka, Japan",
       "orcid": "0000-0002-4540-1698"
@@ -30,6 +25,11 @@
       "name": "Sato, Kaori",
       "affiliation": "RIAM, Kyushu University, Fukuoka, Japan",
       "orcid": "0000-0002-9728-2299"
+    },
+    {
+      "name": "Baldini, Luca",
+      "affiliation": "CNR-ISAC, Rome, Italy",
+      "orcid": "0000-0001-5217-1205"
     }
   ],
   "keywords": [
