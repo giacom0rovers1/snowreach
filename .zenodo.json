@@ -75,6 +75,5 @@
       "resource_type": "publication-article",
       "scheme": "doi"
     }
-  ],
-  "notes": "Before publishing: add the paper as a related identifier with relation isSupplementTo once it has a DOI, and replace the two dataset identifiers above with the version DOIs of the complete archive if that deposit comes first. Reserve the DOI before publishing so that it can go into the manuscript."
+  ]
 }

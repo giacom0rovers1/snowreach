@@ -117,6 +117,14 @@ Zucchelli Station are openly available as monthly NetCDF archives:
 
 The file under `example/` is one month taken from the first of those.
 
+## Support
+
+This is research code released alongside a paper. Questions and reports of
+things that do not work are welcome through the issue tracker, and are
+answered when the authors can. If the classification does not run on another
+instrument's files, that is worth reporting: the reader in `snowreach.io` is
+written for one archive format and will need others.
+
 ## Licence
 
 BSD 3-Clause. See `LICENSE`.

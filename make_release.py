@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-"""Assemble the archive to deposit on Zenodo.
+"""Assemble a standalone zip of the package.
 
     python make_release.py
     python make_release.py --example path/to/one_month.nc
 
-The repository does not carry the example month: it is 3 MB of NetCDF that is
-already published, so it is gitignored and copied in here instead. Everything
-else goes in as it stands, minus the caches.
+This is not how releases are made: Zenodo archives the repository itself on
+every GitHub release, so see RELEASING.md. What this script is for is handing
+someone a self-contained copy without a clone.
 
 The result is snowreach-<version>.zip beside this script, with a single top
 level folder so that unpacking it does not scatter files, and a manifest of
-what went in. Nothing is uploaded: depositing is a deliberate act and it
-needs a token and a person.
+what went in. The example month is normally a tracked file and is taken as it
+is; --example replaces it, and if it is missing the script copies one in from
+the local archive.
 """
 
 import argparse
@@ -92,15 +93,8 @@ def main(argv=None):
     print("\n%s: %d files, %.2f MB packed, %.2f MB unpacked"
           % (out, len(files), os.path.getsize(out) / 1e6, total / 1e6))
 
-    print("""
-Next, by hand, because depositing is not something a script should do on its
-own:
-
-  1. zenodo.org, New upload, drop %s
-  2. paste the metadata from zenodo.json
-  3. reserve the DOI before publishing, so it can go into the paper
-  4. publish, then send the DOI to papers/P1_virga_mzs (codedataavailability)
-""" % out)
+    print("\nThis zip is a convenience copy. Releases are cut on GitHub and "
+          "archived by Zenodo\nfrom the repository itself: see RELEASING.md.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,7 @@
+# This folder is pushed out as a standalone repository with `git subtree`, and
+# from there Zenodo archives it. The parent repository sends every .nc to Git
+# LFS, which would carry a pointer file instead of the data across that push
+# and leave the published package with a worked example that is not there.
+# Three megabytes as an ordinary blob costs nothing and keeps the package
+# self-contained.
+example/*.nc -filter -diff -merge -text

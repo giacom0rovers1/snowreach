@@ -1,6 +1,8 @@
-# The example month is copied in from the published archive at packaging
-# time: it is 3 MB of NetCDF and it is already on Zenodo.
-example/*.nc
+# The root .gitignore excludes every .nc. The worked example is the one
+# exception: it has to be a tracked file, because Zenodo archives this
+# folder as it stands at a release and would otherwise publish a package
+# whose example is missing.
+!example/*.nc
 __pycache__/
 *.pyc
 snowreach-*.zip
