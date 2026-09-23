@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Emulate the lowest observable height of a spaceborne radar on a
-ground-based record, and report what the blind zone costs.
+ground-based record, and report what is the cost of the blind zone.
 
     python emulate_loh.py example/MZS_MRR_2024-01_5min.nc
     python emulate_loh.py "data/*.nc" --gates 2 8 13 19 26 --out sweep.csv
 
 The lower gates are hidden one after another, the classification is repeated
 at each height, and the accumulation is recomputed from the reflectivity
-there. What comes out is how much virga a radar that cannot see the lowest
+there. The outcome is how much virga a radar that cannot see the lowest
 few hundred metres would count as precipitation reaching the ground, and how
 much the accumulation derived that way exceeds the one derived at the
 surface.

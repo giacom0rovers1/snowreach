@@ -1,6 +1,6 @@
 # snowreach
 
-Does the snow a radar detects aloft reach the ground?
+Does the snow a spaceborne radar detects aloft really reach the ground?
 
 Two methods from Roversi et al., *Virga hidden within the blind zone of
 spaceborne radars: implications for surface snowfall estimates in coastal East
@@ -12,10 +12,6 @@ Antarctica* (Atmospheric Chemistry and Physics, submitted).
 2. **An emulation of the lowest observable height** of a spaceborne radar,
    which hides the lower gates of a ground-based record and reports what the
    blind zone costs in occurrence and in accumulated water equivalent.
-
-This is the method, not the analysis pipeline of the paper. It carries no
-figure scripts and no intermediate files. The observations are published
-separately and openly, and what is here runs on them as downloaded.
 
 ## Install
 
@@ -121,13 +117,15 @@ Zucchelli Station are openly available as monthly NetCDF archives:
 
 The file under `example/` is one month taken from the first of those.
 
-## What is not here
-
-The figures and tables of the paper, the ERA5 comparison, the ceilometer and
-radiosonde analyses, and the machine-learning reconstruction of the
-classification. Those are the analysis of one site rather than a method, and
-they need intermediate files that are of no use anywhere else.
-
 ## Licence
 
 BSD 3-Clause. See `LICENSE`.
+
+## Acknowledgements
+
+The package was assembled from the analysis code of the paper with Claude
+(Anthropic), used through Claude Code: it extracted the two methods from a
+larger working repository, wrote the command-line scripts and the
+documentation, and checked the result against the published table. The
+methods, the decisions about what to release and the verification of the
+outcome are the authors'.

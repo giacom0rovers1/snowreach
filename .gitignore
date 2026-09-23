@@ -3,3 +3,4 @@
 example/*.nc
 __pycache__/
 *.pyc
+snowreach-*.zip

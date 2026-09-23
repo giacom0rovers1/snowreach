@@ -6,8 +6,8 @@ or noise, and report how often each occurs.
     python classify_profiles.py "data/*.nc" --gate 2 --hourly --out labels.csv
 
 The input is one NetCDF file or a glob matching several, each carrying ``Ze``
-in dBZ over ``(time, range)``. Files are concatenated along time in name
-order, so monthly files sort correctly when their names begin with the date.
+in dBZ over ``(time, range)``. Several files are concatenated and then sorted
+by time, so the order in which the glob returns them does not matter.
 
 Reference: Roversi et al., Virga hidden within the blind zone of spaceborne
 radars, Atmospheric Chemistry and Physics, submitted.
