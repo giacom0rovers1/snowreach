@@ -10,7 +10,7 @@ It is here so that both scripts run as soon as the package is unpacked. The
 month carries 4561 five-minute steps at 53 % coverage, of which 310 contain
 hydrometeors. It is one month of a four-year record and its shares are not the
 published statistics: virga is 41 % of the bearing profiles here against 38 %
-over the four years, and the accumulation excess at the emulated heights is
+over the four years, and the accumulation excess at the simulated heights is
 much larger than the published one, because a single intense event weighs
 heavily on one month.
 

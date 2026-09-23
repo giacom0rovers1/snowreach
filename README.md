@@ -1,6 +1,6 @@
 # snowreach
 
-Does the snow a spaceborne radar detects aloft really reach the ground?
+Does the snow that a spaceborne radar detects aloft really reach the ground?
 
 Two methods from Roversi et al., *Virga hidden within the blind zone of
 spaceborne radars: implications for surface snowfall estimates in coastal East
@@ -9,7 +9,7 @@ Antarctica* (Atmospheric Chemistry and Physics, submitted).
 1. **A classification** of the profiles of a vertically pointing radar into
    precipitation, virga and noise, according to whether the echo survives to
    the lowest gate free of ground clutter.
-2. **An emulation of the lowest observable height** of a spaceborne radar,
+2. **A simulation of the lowest observable height** of a spaceborne radar,
    which hides the lower gates of a ground-based record and reports what the
    blind zone costs in occurrence and in accumulated water equivalent.
 
@@ -29,18 +29,18 @@ scripts work as soon as the package is unpacked.
 
 ```
 python classify_profiles.py example/MZS_MRR_2020-11_5min.nc --hourly
-python emulate_loh.py example/MZS_MRR_2020-11_5min.nc --gates 2 8 13 19 26
+python simulate_loh.py example/MZS_MRR_2020-11_5min.nc --gates 2 8 13 19 26
 ```
 
 The first prints how often each class occurs. The second prints, for every
-emulated height, the virga share, the accumulation, the excess over the
+simulated height, the virga share, the accumulation, the excess over the
 reference gate, and how many virga profiles that height would count as
 precipitation reaching the ground.
 
 Both take a glob in quotes instead of a single file, so a whole record is
 
 ```
-python emulate_loh.py "path/to/MZS_MRR_MeK_*_5min.nc" --gates 2 13 19
+python simulate_loh.py "path/to/MZS_MRR_MeK_*_5min.nc" --gates 2 13 19
 ```
 
 ## Using it as a library
@@ -68,12 +68,12 @@ a data variable and order their dimensions the other way round.
 | sample length | 5 minutes | the averaging of the archived files |
 | relation | Bracci (Aggregates) | calibrated on site, aggregate habit, the primary estimate of the paper |
 
-The emulated heights used in the paper are gates 13 (490 m, EarthCARE-like)
+The simulated heights used in the paper are gates 13 (490 m, EarthCARE-like)
 and 19 and 26 (700 and 945 m, CloudSat-like), against the reference gate 2.
 
 ## Reproducing the published numbers
 
-Over the four years of the record, 2020, 2021, 2023 and 2024, `emulate_loh.py`
+Over the four years of the record, 2020, 2021, 2023 and 2024, `simulate_loh.py`
 gives
 
 | height | accumulation | excess | published |
@@ -91,7 +91,7 @@ of the relation itself, which is 189 to 240 mm at the reference gate.
 
 ## The Ze–SR relations are not ours
 
-`snowreach.zesr` carries five published power laws so that the emulation can
+`snowreach.zesr` carries five published power laws so that the simulation can
 return an accumulation and not only an occurrence. Cite the original papers,
 which `snowreach.zesr.SOURCES` names:
 

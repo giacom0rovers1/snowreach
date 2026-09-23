@@ -6,7 +6,7 @@ spaceborne radars* (Atmospheric Chemistry and Physics, submitted):
 * :mod:`snowreach.classify`, which labels the profiles of a vertically
   pointing radar as precipitation, virga or noise according to whether the
   echo survives to the lowest gate free of ground clutter;
-* :mod:`snowreach.loh`, which emulates the lowest observable height of a
+* :mod:`snowreach.loh`, which simulates the lowest observable height of a
   spaceborne radar by hiding the lower gates, and reports what that costs in
   occurrence and in accumulated water equivalent.
 

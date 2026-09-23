@@ -1,4 +1,4 @@
-"""Emulation of a higher lowest observable height.
+"""Simulation of a higher lowest observable height.
 
 A spaceborne cloud radar cannot use the gates nearest the surface, because
 ground clutter fills them. The height of the first usable gate is the lowest
@@ -54,7 +54,7 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
     ds : xarray.Dataset
         ``Ze`` in dBZ with dimensions ``(time, range)``, and ``height``.
     gates : sequence of int, optional
-        Gate indices to emulate. Defaults to every gate from the reference
+        Gate indices to simulate. Defaults to every gate from the reference
         one to three below the top, which is as high as the two-gate
         continuity check can reach.
     reference : int
@@ -116,7 +116,7 @@ def sublimation_ratio(sweep_table, reference=DEFAULT_GATE):
 
     Defined as in Bracci et al. (2022) and used in the paper as *SubR*: one
     minus the ratio of the accumulation at the reference gate to the
-    accumulation at the emulated one. It is positive when the higher gate
+    accumulation at the simulated one. It is positive when the higher gate
     sees more snow than the lower one, which is the ordinary case here.
     """
     ref = sweep_table.loc[reference, "accumulation_mm"]
@@ -126,13 +126,13 @@ def sublimation_ratio(sweep_table, reference=DEFAULT_GATE):
 def misclassified_virga(ds, gate, reference=DEFAULT_GATE,
                         threshold=DEFAULT_THRESHOLD):
     """The profiles that are virga at the reference gate and precipitation at
-    the emulated one. These are the ones a satellite would count as snow
+    the simulated one. These are the ones a satellite would count as snow
     reaching the surface."""
     low = classify(ds, gate=reference, threshold=threshold)
     high = classify(ds, gate=gate, threshold=threshold)
-    both = pd.concat([low.rename("reference"), high.rename("emulated")],
+    both = pd.concat([low.rename("reference"), high.rename("simulated")],
                      axis=1)
-    hit = (both["reference"] == "virga") & (both["emulated"] == "precip")
+    hit = (both["reference"] == "virga") & (both["simulated"] == "precip")
     n_virga = int((both["reference"] == "virga").sum())
     return {
         "n_virga_at_reference": n_virga,

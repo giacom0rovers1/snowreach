@@ -29,7 +29,7 @@ EXAMPLE_AS = os.path.join("example", "MZS_MRR_2020-11_5min.nc")
 
 INCLUDE = [
     "README.md", "LICENSE", "CITATION.cff", "requirements.txt",
-    "classify_profiles.py", "emulate_loh.py",
+    "classify_profiles.py", "simulate_loh.py",
     os.path.join("snowreach", "__init__.py"),
     os.path.join("snowreach", "classify.py"),
     os.path.join("snowreach", "io.py"),

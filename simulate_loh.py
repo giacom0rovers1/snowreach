@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Emulate the lowest observable height of a spaceborne radar on a
+"""Simulate the lowest observable height of a spaceborne radar on a
 ground-based record, and report what is the cost of the blind zone.
 
-    python emulate_loh.py example/MZS_MRR_2024-01_5min.nc
-    python emulate_loh.py "data/*.nc" --gates 2 8 13 19 26 --out sweep.csv
+    python simulate_loh.py example/MZS_MRR_2024-01_5min.nc
+    python simulate_loh.py "data/*.nc" --gates 2 8 13 19 26 --out sweep.csv
 
 The lower gates are hidden one after another, the classification is repeated
 at each height, and the accumulation is recomputed from the reflectivity
@@ -32,7 +32,7 @@ def main(argv=None):
         formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("input", help="NetCDF file, or a glob in quotes")
     p.add_argument("--gates", type=int, nargs="+", default=None,
-                   help="gate indices to emulate (default: every gate from "
+                   help="gate indices to simulate (default: every gate from "
                         "the reference one upwards)")
     p.add_argument("--reference", type=int, default=DEFAULT_GATE,
                    help="the gate the site actually observes "

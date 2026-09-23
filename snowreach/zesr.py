@@ -7,7 +7,7 @@ form
 
 with Ze the equivalent reflectivity factor in mm^6 m^-3 and SR the snowfall
 rate in mm h^-1 of water equivalent. They are collected here because the
-blind-zone emulation needs an accumulation, not only an occurrence, and
+blind-zone simulation needs an accumulation, not only an occurrence, and
 because the spread between them is the dominant uncertainty of any
 ground-based accumulation at this site. Cite the original papers, not this
 package, when using the coefficients.
