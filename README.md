@@ -131,7 +131,7 @@ BSD 3-Clause. See `LICENSE`.
 
 ## Acknowledgements
 
-The package was assembled from the analysis code of the paper with Claude
+The package was assembled from the analysis code of the paper with Claude Opus 5
 (Anthropic), used through Claude Code: it extracted the two methods from a
 larger working repository, wrote the command-line scripts and the
 documentation, and checked the result against the published table. The
