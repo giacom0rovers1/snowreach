@@ -10,14 +10,15 @@ of the folder and not of the wider project. Nothing is edited here directly.
 To push the folder out after changing it in the working repository:
 
 ```bash
-git subtree push --prefix=snowreach github main
+git subtree push --prefix=snowreach snowreach main
 ```
 
-with `github` a remote pointing at this repository. The first time:
+with `snowreach` a remote pointing at this repository (the working repository
+has its own `github` remote, for itself). The first time:
 
 ```bash
-git remote add github git@github.com:<owner>/snowreach.git
-git subtree push --prefix=snowreach github main
+git remote add snowreach https://github.com/giacom0rovers1/snowreach.git
+git subtree push --prefix=snowreach snowreach main
 ```
 
 `git subtree` rewrites the commits that touch the folder into a history of
