@@ -2,7 +2,7 @@
 """Simulate the lowest observable height of a spaceborne radar on a
 ground-based record, and report what is the cost of the blind zone.
 
-    python simulate_loh.py example/MZS_MRR_2024-01_5min.nc
+    python simulate_loh.py example/MZS_MRR_2020-11_5min.nc
     python simulate_loh.py "data/*.nc" --gates 2 8 13 19 26 --out sweep.csv
 
 The lower gates are hidden one after another, the classification is repeated

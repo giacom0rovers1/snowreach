@@ -7,18 +7,30 @@ standing on the ground can be made to answer the same question the satellite
 faces by simply refusing to look at its own lowest gates.
 
 That is all this module does. The classification of :mod:`snowreach.classify`
-is repeated with the reference gate moved upwards, and the accumulation is
-recomputed from the reflectivity at that gate. Two numbers come out of the
-sweep:
+is repeated with the reference gate moved upwards and the gates below it
+hidden, and the accumulation is recomputed from the reflectivity at that
+gate. Three numbers come out of the sweep:
 
 * how many of the profiles that are virga at the true reference gate become
-  indistinguishable from precipitation once the lower gates are hidden;
+  indistinguishable from precipitation once the lower gates are hidden,
+  counted profile by profile;
+* how many of the profiles that are precipitation at the reference gate
+  leave no echo at all at or above the simulated gate, found by subtraction
+  and therefore without any condition on the part of the column that is
+  hidden: shallow precipitation, which such a radar misses entirely;
 * how much the accumulation derived from the higher gate exceeds the one
   derived from the reference gate.
 
-The second is the bias that a satellite estimate carries at this site from
+The last is the bias that a satellite estimate carries at this site from
 the observing geometry alone. It contains no retrieval uncertainty, because
 there is no retrieval in it.
+
+Version 1.0.1 classified the simulated gates without hiding the gates below
+them, and reported the virga lost as the net difference of the virga counts.
+Shallow precipitation then counted as virga at the higher gates, and the net
+difference understated the virga that turns into precipitation (20 against
+35 % at 490 m in the Mario Zucchelli record). The accumulations were not
+affected, because they use the reflectivity at the gate alone.
 
 Reference: Roversi et al., Virga hidden within the blind zone of spaceborne
 radars, Atmospheric Chemistry and Physics, submitted.
@@ -28,7 +40,7 @@ import numpy as np
 import pandas as pd
 
 from . import zesr
-from .classify import DEFAULT_GATE, DEFAULT_THRESHOLD, classify
+from .classify import DEFAULT_GATE, DEFAULT_THRESHOLD, classify, usable_top
 
 #: The gates of the Mario Zucchelli record that stand in for the two
 #: spaceborne radars, at 35 m per gate above a deck 20 m above sea level.
@@ -55,8 +67,8 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
         ``Ze`` in dBZ with dimensions ``(time, range)``, and ``height``.
     gates : sequence of int, optional
         Gate indices to simulate. Defaults to every gate from the reference
-        one to three below the top, which is as high as the two-gate
-        continuity check can reach.
+        one to two below the top of the usable column, which is as high as
+        the three-gate continuity check can reach.
     reference : int
         The gate the site actually observes, against which the others are
         compared.
@@ -66,18 +78,24 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
     Returns
     -------
     pandas.DataFrame
-        One row per gate, indexed by gate, with the height, the class counts,
-        the virga share of the hydrometeor-bearing profiles, the accumulation
-        in mm, and the accumulation excess over the reference gate in per
-        cent.
+        One row per gate, indexed by gate, with the height, the class counts
+        (over the profiles with an echo at or above the gate), the virga
+        share of those profiles, the accumulation in mm, and, against the
+        reference gate: the accumulation excess in per cent, the share of
+        the reference virga seen as precipitation, and the share of the
+        reference precipitation left with no echo at all.
     """
-    n_gates = ds.sizes["range"]
+    top = usable_top(ds)
     if gates is None:
-        gates = range(reference, n_gates - 3)
+        gates = range(reference, top - 1)
+
+    ref_labels = classify(ds, gate=reference, threshold=threshold)
+    ref_virga = ref_labels == "virga"
+    ref_precip = ref_labels == "precip"
 
     rows = []
     for gate in gates:
-        if gate + 2 >= n_gates:
+        if gate + 2 > top:
             continue
         labels = classify(ds, gate=gate, threshold=threshold)
         counts = labels.value_counts()
@@ -88,6 +106,9 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
         ze = ds["Ze"].isel(range=gate)
         accumulation = zesr.accumulate(ze.values, minutes, relation)
 
+        seen_as_precip = int((ref_virga & (labels == "precip")).sum())
+        unseen = int((ref_precip & (labels == "no_signal")).sum())
+
         rows.append({
             "gate": gate,
             "height_m": gate_height(ds, gate),
@@ -97,6 +118,10 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
             "n_no_signal": n["no_signal"],
             "virga_share_pct": 100.0 * n["virga"] / max(bearing, 1),
             "accumulation_mm": accumulation,
+            "virga_seen_as_precip_pct":
+                100.0 * seen_as_precip / max(int(ref_virga.sum()), 1),
+            "precip_unseen_pct":
+                100.0 * unseen / max(int(ref_precip.sum()), 1),
         })
 
     out = pd.DataFrame(rows).set_index("gate")
@@ -105,22 +130,21 @@ def sweep(ds, gates=None, reference=DEFAULT_GATE,
         out["accumulation_excess_pct"] = (
             100.0 * (out["accumulation_mm"] - ref["accumulation_mm"])
             / ref["accumulation_mm"])
-        out["virga_lost_pct"] = (
-            100.0 * (ref["n_virga"] - out["n_virga"]) / max(ref["n_virga"], 1))
     return out
 
 
 def sublimation_ratio(sweep_table, reference=DEFAULT_GATE):
-    """The share of the accumulation seen at each gate that never reaches the
-    reference gate.
+    """The sublimation ratio *SubR* of each gate, as a fraction.
 
-    Defined as in Bracci et al. (2022) and used in the paper as *SubR*: one
-    minus the ratio of the accumulation at the reference gate to the
-    accumulation at the simulated one. It is positive when the higher gate
-    sees more snow than the lower one, which is the ordinary case here.
+    Bracci et al. (2022, URSI AT-AP-RASC) define it on snowfall rates as
+    ``(SR_i - SR_105) / SR_105``, with the reference gate at 105 m in the
+    denominator. The paper applies it to the accumulations and quotes it in
+    per cent, which is the ``accumulation_excess_pct`` column of the sweep:
+    the overestimation of a surface estimate taken at the simulated gate.
+    Version 1.0.1 divided by the accumulation at the simulated gate instead.
     """
     ref = sweep_table.loc[reference, "accumulation_mm"]
-    return 1.0 - ref / sweep_table["accumulation_mm"]
+    return sweep_table["accumulation_mm"] / ref - 1.0
 
 
 def misclassified_virga(ds, gate, reference=DEFAULT_GATE,
@@ -149,8 +173,10 @@ def summarise(table):
         note = SATELLITE_GATES.get(int(gate)) or ""
         excess = row.get("accumulation_excess_pct", np.nan)
         lines.append(
-            "gate %2d  %6.0f m   virga %5.1f %%   accumulation %7.2f mm"
+            "gate %2d  %6.0f m   virga %5.1f %%   virga seen as precip %5.1f %%"
+            "   precip unseen %5.1f %%   accumulation %7.2f mm"
             "   excess %+6.1f %%  %s"
             % (gate, row["height_m"], row["virga_share_pct"],
+               row["virga_seen_as_precip_pct"], row["precip_unseen_pct"],
                row["accumulation_mm"], excess, note))
     return "\n".join(lines)

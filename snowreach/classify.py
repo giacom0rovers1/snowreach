@@ -13,13 +13,24 @@ simple threshold on one gate:
   gates above it** are all above threshold, which rejects the isolated
   near-surface spikes that ground clutter produces;
 * a profile counts as virga only if at least two adjacent gates anywhere in
-  the column are above threshold, or the echo reaches the top of the column,
-  which rejects single-gate returns that carry no vertical structure.
+  the column are above threshold, or the echo reaches either of the two
+  uppermost usable gates, which rejects single-gate returns that carry no
+  vertical structure.
 
 Everything that has signal but satisfies neither is noise, so the four
 labels partition the record. `almost` is a diagnostic subset of virga, the
 profiles whose echo dies in the gate just above the reference one, and it is
 not a fifth category.
+
+The gates below the reference one are hidden: they count neither as signal
+nor in the continuity tests. For the real reference gate this changes
+nothing, because the gates below it are the near-field ones the processing
+discards. It matters when the reference gate is raised to simulate the
+lowest observable height of another radar (:mod:`snowreach.loh`), which
+cannot see an echo below that height either. Version 1.0.1 did not hide
+them, so a column with echo only below the simulated height came out as
+virga, and its top test looked at the discarded gate above the usable
+column instead of the two uppermost usable ones.
 
 Reference: Roversi et al., Virga hidden within the blind zone of spaceborne
 radars, Atmospheric Chemistry and Physics, submitted.
@@ -53,6 +64,33 @@ def _any_two_adjacent(above):
                         coords={d: above[d] for d in dims})
 
 
+def usable_top(ds):
+    """Index of the uppermost usable range gate.
+
+    ImProToo discards the gate at the top of the column as too noisy, and
+    the archived files give the discarded gates a NaN height, so the usable
+    column ends at the last gate with a finite height (1050 m at Mario
+    Zucchelli). A dataset that keeps the nominal heights, or has none,
+    falls back to the gate below the last one, the ImProToo convention.
+    """
+    n = ds.sizes["range"]
+    if "height" in ds:
+        finite = np.isfinite(ds["height"])
+        if "time" in finite.dims:
+            finite = finite.any(dim="time")
+        idx = np.flatnonzero(finite.values)
+        if idx.size and idx[-1] < n - 1:
+            return int(idx[-1])
+    return n - 2
+
+
+def _visible(ds, gate, threshold):
+    """Gates above threshold, with every gate below the reference one hidden."""
+    above = ds["Ze"] >= threshold
+    below = xr.DataArray(np.arange(ds.sizes["range"]) < gate, dims="range")
+    return above & ~below
+
+
 def classify(ds, gate=DEFAULT_GATE, threshold=DEFAULT_THRESHOLD):
     """Label every time step of a radar dataset.
 
@@ -63,7 +101,7 @@ def classify(ds, gate=DEFAULT_GATE, threshold=DEFAULT_THRESHOLD):
         ordered from the ground upwards.
     gate : int
         Index of the reference gate, the lowest one taken to be free of
-        ground clutter.
+        ground clutter. The gates below it are hidden.
     threshold : float
         Reflectivity above which a gate counts as signal, in dBZ.
 
@@ -72,12 +110,16 @@ def classify(ds, gate=DEFAULT_GATE, threshold=DEFAULT_THRESHOLD):
     pandas.Series
         One label per time step, from :data:`LABELS`.
     """
-    above = ds["Ze"] >= threshold
+    top = usable_top(ds)
+    if gate + 2 > top:
+        raise ValueError("gate %d: the two gates above it would leave the "
+                         "usable column, whose top gate is %d" % (gate, top))
+    above = _visible(ds, gate, threshold)
     n_above = above.sum(dim="range")
 
     at_gate = above.isel(range=gate)
     two_above_gate = above.isel(range=gate + 1) & above.isel(range=gate + 2)
-    at_top = above.isel(range=-2) | above.isel(range=-1)
+    at_top = above.isel(range=top - 1) | above.isel(range=top)
 
     has_signal = n_above > 0
     is_precip = has_signal & at_gate & two_above_gate
@@ -93,7 +135,7 @@ def classify(ds, gate=DEFAULT_GATE, threshold=DEFAULT_THRESHOLD):
 def almost_reaching(ds, gate=DEFAULT_GATE, threshold=DEFAULT_THRESHOLD):
     """The virga profiles whose echo survives to the gate just above the
     reference one. A diagnostic subset of virga, already counted there."""
-    above = ds["Ze"] >= threshold
+    above = _visible(ds, gate, threshold)
     n_above = above.sum(dim="range")
     at_gate = above.isel(range=gate)
     two_above_gate = above.isel(range=gate + 1) & above.isel(range=gate + 2)

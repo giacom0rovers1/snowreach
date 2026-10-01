@@ -89,6 +89,44 @@ The totals differ from the published table by 0.3 %, which comes from the gap
 handling of the full pipeline. Both sit well inside the Monte Carlo interval
 of the relation itself, which is 189 to 240 mm at the reference gate.
 
+On the occurrence side, virga is 38.4 % of the hydrometeor-bearing profiles
+at the reference gate, and the sweep follows the 105-m columns profile by
+profile:
+
+| height | 105-m virga seen as precipitation | 105-m precipitation with no echo left |
+|---|---|---|
+| 315 m | 20.2 % | 3.1 % |
+| 490 m | 34.5 % | 7.0 % |
+| 700 m | 52.3 % | 12.3 % |
+| 945 m | 65.0 % | 18.7 % |
+
+The second column is the shallow precipitation that a radar with that lowest
+observable height misses entirely.
+
+## Changes
+
+**1.0.2**
+
+* The simulated heights hide the gates below them, as the module
+  documentation always said. In 1.0.1 they did not: a column with echo only
+  below the simulated height counted as virga, and `sweep` reported the
+  virga lost as a net difference of counts (20 % at 490 m in the Mario
+  Zucchelli record, against the 35 % found profile by profile).
+  `virga_lost_pct` is replaced by `virga_seen_as_precip_pct` and
+  `precip_unseen_pct`. The accumulations do not change.
+* The top test looks at the two uppermost usable gates, found from the
+  heights the processing leaves finite. In 1.0.1 it looked at the last two
+  gates of the file, one of which the processing always discards, so in
+  practice only 1050 m counted. At the reference gate 77 of 376 080 profiles
+  move from noise to virga.
+* `sublimation_ratio` divides by the accumulation at the reference gate, as
+  in Bracci et al. (2022, URSI AT-AP-RASC). In 1.0.1 it divided by the one at
+  the simulated gate.
+* The DOIs of three of the Ze–SR sources were wrong in 1.0.1, in the code, in
+  this README and in the Zenodo metadata: Bracci et al. (2022) is
+  10.3390/rs14010082, Scarchilli et al. (2020) 10.1017/jog.2020.70 and
+  Souverijns et al. (2017) 10.1016/j.atmosres.2017.06.001.
+
 ## The Ze–SR relations are not ours
 
 `snowreach.zesr` carries five published power laws so that the simulation can
@@ -96,10 +134,10 @@ return an accumulation and not only an occurrence. Cite the original papers,
 which `snowreach.zesr.SOURCES` names:
 
 * Bracci et al. (2022), aggregate and pristine habits, calibrated at Mario
-  Zucchelli Station, doi:10.3390/rs14040911
+  Zucchelli Station, doi:10.3390/rs14010082
 * Scarchilli et al. (2020), Mario Zucchelli Station,
-  doi:10.1007/s00382-020-05161-1
-* Souverijns et al. (2017), Princess Elisabeth, doi:10.1029/2017JD026862
+  doi:10.1017/jog.2020.70
+* Souverijns et al. (2017), Princess Elisabeth, doi:10.1016/j.atmosres.2017.06.001
 * Grazioli et al. (2017), Dumont d'Urville, doi:10.5194/tc-11-1797-2017
 
 The three calibrated on site are the ones the paper carries. The published

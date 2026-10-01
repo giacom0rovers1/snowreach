@@ -2,7 +2,7 @@
 """Label the profiles of a vertically pointing radar as precipitation, virga
 or noise, and report how often each occurs.
 
-    python classify_profiles.py example/MZS_MRR_2024-01_5min.nc
+    python classify_profiles.py example/MZS_MRR_2020-11_5min.nc
     python classify_profiles.py "data/*.nc" --gate 2 --hourly --out labels.csv
 
 The input is one NetCDF file or a glob matching several, each carrying ``Ze``

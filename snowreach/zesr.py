@@ -35,13 +35,13 @@ RELATIONS = {
 #: Where each relation comes from, and where it was calibrated.
 SOURCES = {
     "Bracci (Aggregates)":
-        "Bracci et al. (2022), doi:10.3390/rs14040911, MZS, aggregate habit",
+        "Bracci et al. (2022), doi:10.3390/rs14010082, MZS, aggregate habit",
     "Bracci (Pristine)":
-        "Bracci et al. (2022), doi:10.3390/rs14040911, MZS, pristine habit",
+        "Bracci et al. (2022), doi:10.3390/rs14010082, MZS, pristine habit",
     "Scarchilli":
-        "Scarchilli et al. (2020), doi:10.1007/s00382-020-05161-1, MZS",
+        "Scarchilli et al. (2020), doi:10.1017/jog.2020.70, MZS",
     "Souverijns":
-        "Souverijns et al. (2017), doi:10.1029/2017JD026862, "
+        "Souverijns et al. (2017), doi:10.1016/j.atmosres.2017.06.001, "
         "Princess Elisabeth",
     "Grazioli":
         "Grazioli et al. (2017), doi:10.5194/tc-11-1797-2017, "

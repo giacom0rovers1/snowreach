@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
   "title": "snowreach: virga classification and blind-zone simulation for vertically pointing radars",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "language": "eng",
   "license": "BSD-3-Clause",
   "access_right": "open",
@@ -64,13 +64,13 @@
       "scheme": "doi"
     },
     {
-      "identifier": "10.3390/rs14040911",
+      "identifier": "10.3390/rs14010082",
       "relation": "references",
       "resource_type": "publication-article",
       "scheme": "doi"
     },
     {
-      "identifier": "10.1007/s00382-020-05161-1",
+      "identifier": "10.1017/jog.2020.70",
       "relation": "references",
       "resource_type": "publication-article",
       "scheme": "doi"
