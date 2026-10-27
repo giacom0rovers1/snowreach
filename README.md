@@ -4,7 +4,7 @@ Does the snow that a spaceborne radar detects aloft really reach the ground?
 
 Two methods from Roversi et al., *Virga hidden within the blind zone of
 spaceborne radars: implications for surface snowfall estimates in coastal East
-Antarctica* (Atmospheric Chemistry and Physics, submitted).
+Antarctica* (Atmospheric Measurement Techniques, submitted).
 
 1. **A classification** of the profiles of a vertically pointing radar into
    precipitation, virga and noise, according to whether the echo survives to
